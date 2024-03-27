@@ -1,14 +1,41 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.lang.System.out;
+
 
 public class Main {
+    private static final Logger LOG = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
-        System.out.println(getFirstUniqueSymbol("SimpleString"));
-        System.out.println(getFirstUniqueSymbol("qQwerty"));
-        System.out.println(getFirstUniqueSymbol("qweqwe"));
+        String[] examplesStrings = {
+                "SimpleString",
+                "qQwerty",
+                "qweqwe",
+                "",
+                null
+        };
+
+        for (var string : examplesStrings) {
+            try {
+                out.println(getFirstUniqueSymbol(string));
+            } catch (Exception e) {
+                LOG.log(Level.WARNING, e.toString());
+            }
+        }
     }
 
     public static char getFirstUniqueSymbol(String string) {
+        if (string == null) {
+            throw new NullPointerException();
+        }
+
+        if (string.isEmpty()) {
+            throw new EmptyStringException();
+        }
+
         char[] chars = string.toLowerCase().toCharArray();
         int defaultCount = 1;
         int countSymbols;
